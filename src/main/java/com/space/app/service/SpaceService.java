@@ -306,6 +306,7 @@ public class SpaceService {
 			properties.put("mail.smtp.auth", "true");
 			properties.put("mail.smtp.starttls.enable", "true");
 			properties.put("mail.smtp.host", "smtp.gmail.com");
+			properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
 			properties.put("mail.smtp.port", "587");
 
 			String myAccountEmail = "alien.propulsion2022@gmail.com";
@@ -457,6 +458,7 @@ public class SpaceService {
 			properties.put("mail.smtp.auth", "true");
 			properties.put("mail.smtp.starttls.enable", "true");
 			properties.put("mail.smtp.host", "smtp.gmail.com");
+			properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
 			properties.put("mail.smtp.port", "587");
 
 			String myAccountEmail = "alien.propulsion2022@gmail.com";
