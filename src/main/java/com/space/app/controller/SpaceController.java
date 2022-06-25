@@ -42,7 +42,7 @@ public class SpaceController {
 		CommonResponseDTO loginResponse = new CommonResponseDTO();
 		try {
 			if (loginRequest.getSignUpF().equals(AppConstants.N_STR)) {
-				loginResponse = spaceService.test(loginRequest);
+				loginResponse = spaceService.loginAuth(loginRequest);
 			} else if (loginRequest.getSignUpF().equals(AppConstants.Y_STR)) {
 				loginResponse = spaceService.signUpAuth(loginRequest);
 			}

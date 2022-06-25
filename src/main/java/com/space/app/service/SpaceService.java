@@ -111,21 +111,6 @@ public class SpaceService {
 			throw new SpaceException(ErrorConstants.LOGIN_AUTH_ERROR);
 		}
 	}
-	
-	public CommonResponseDTO test(LoginDTO loginRequest) throws SpaceException {
-
-		CommonResponseDTO loginResponse = new CommonResponseDTO();
-		UserDetailsEntity userEntity = new UserDetailsEntity();
-		try {
-
-			loginResponse.setResponseMessage("WORKING");
-
-		} catch (DataAccessException | PersistenceException ex) {
-			logger.error(ErrorConstants.LOGIN_AUTH_ERROR);
-			throw new SpaceException(ErrorConstants.LOGIN_AUTH_ERROR);
-		}
-		return loginResponse;
-	}
 
 	public CommonResponseDTO signUpAuth(LoginDTO signUpRequest) throws SpaceException {
 
