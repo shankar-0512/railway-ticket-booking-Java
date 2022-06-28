@@ -408,6 +408,7 @@ public class SpaceService {
 		BookingDetailsEntity bookingDetails = new BookingDetailsEntity();
 		String user2Name = null;
 		String user2Age = null;
+		String status = null;
 		String emailSubject = AppConstants.EMPTY_STR;
 		String emailContent = AppConstants.EMPTY_STR;
 		try {
@@ -429,9 +430,12 @@ public class SpaceService {
 			if (generateRequest.getUser2Name().equals(AppConstants.EMPTY_STR)) {
 				user2Name = AppConstants.HYPHEN;
 				user2Age = AppConstants.HYPHEN;
+				status = AppConstants.HYPHEN;
+				
 			} else {
 				user2Name = generateRequest.getUser2Name();
 				user2Age = generateRequest.getUser2Age().toString();
+				status = "CNF";
 			}
 
 			// ###### SAVING BOOKING DETAILS ######
@@ -474,7 +478,7 @@ public class SpaceService {
 
 			emailSubject = "Your E-Ticket";
 			emailContent = SpaceUtil.generateTicketEmailContent(generateRequest, shipDetails, bookingDetails, user2Name,
-					user2Age, duration, price, serviceCharge, total);
+					user2Age, duration, price, serviceCharge, total, status);
 
 			Message message = prepareMessage(session, myAccountEmail, recipient, emailContent, emailSubject);
 			Transport.send(message);

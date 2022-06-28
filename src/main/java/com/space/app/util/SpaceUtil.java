@@ -21,7 +21,7 @@ public class SpaceUtil {
 	
 	public static String generateTicketEmailContent(GenerateEticketRequestDTO generateRequest, ShipDetailsEntity shipDetails,
 			BookingDetailsEntity bookingDetails, String user2Name, String user2Age, Integer duration, Double price,
-			Double serviceCharge, Double total) {
+			Double serviceCharge, Double total, String status) {
 		String emailContent;
 		emailContent = "<!DOCTYPE html>\r\n"
 				+ "<html>\r\n"
@@ -48,7 +48,7 @@ public class SpaceUtil {
 				+ "      <table\r\n"
 				+ "        style=\"border: 1px solid black; border-style: collapse; width: 90%\"\r\n"
 				+ "      >\r\n"
-				+ "        <tr style=\"background-color: #41ecff\">\r\n"
+				+ "        <tr style=\"background-color: #05033e\">\r\n"
 				+ "          <th style=\"text-align: left; padding: 8px\">PNR No</th>\r\n"
 				+ "        </tr>\r\n"
 				+ "        <tr style=\"background-color: #b7f7fe\">\r\n"
@@ -62,7 +62,7 @@ public class SpaceUtil {
 				+ "      <table\r\n"
 				+ "        style=\"border: 1px solid black; border-style: collapse; width: 90%\"\r\n"
 				+ "      >\r\n"
-				+ "        <tr style=\"background-color: #41ecff\">\r\n"
+				+ "        <tr style=\"background-color: #05033e\">\r\n"
 				+ "          <th style=\"text-align: left; padding: 8px\">Ship Name</th>\r\n"
 				+ "          <th style=\"text-align: left; padding: 8px\">Class</th>\r\n"
 				+ "          <th style=\"text-align: left; padding: 8px\">Boarding Station</th>\r\n"
@@ -86,7 +86,7 @@ public class SpaceUtil {
 				+ "      <table\r\n"
 				+ "        style=\"border: 1px solid black; border-style: collapse; width: 90%\"\r\n"
 				+ "      >\r\n"
-				+ "        <tr style=\"background-color: #41ecff\">\r\n"
+				+ "        <tr style=\"background-color: #05033e\">\r\n"
 				+ "          <th style=\"text-align: left; padding: 8px\">Name</th>\r\n"
 				+ "          <th style=\"text-align: left; padding: 8px\">Age</th>\r\n"
 				+ "          <th style=\"text-align: left; padding: 8px\">Status</th>\r\n"
@@ -95,13 +95,13 @@ public class SpaceUtil {
 				+ "        <tr style=\"background-color: #b7f7fe\">\r\n"
 				+ "          <td style=\"text-align: left; padding: 8px\">"+ generateRequest.getUserName() +"</td>\r\n"
 				+ "          <td style=\"text-align: left; padding: 8px\">"+ generateRequest.getUserAge() +"</td>\r\n"
-				+ "          <td style=\"text-align: left; padding: 8px\">CNF</td>\r\n"
+				+ "          <td style=\"text-align: left; padding: 8px\">"+ status +"</td>\r\n"
 				//+ "          <td style=\"text-align: left; padding: 8px\">25A</td>\r\n"
 				+ "        </tr>\r\n"
 				+ "		   <tr style=\"background-color: #b7f7fe\">\r\n"
 		        + "  		 <td style=\"text-align: left; padding: 8px\">"+ user2Name +"</td>\r\n"
 		        + "  		 <td style=\"text-align: left; padding: 8px\">"+ user2Age +"</td>\r\n"
-		        + "  		 <td style=\"text-align: left; padding: 8px\">CNF</td>\r\n"
+		        + "  		 <td style=\"text-align: left; padding: 8px\">"+ status +"</td>\r\n"
 		        //+ "  		 <td style=\"text-align: left; padding: 8px\">25B</td>\r\n"
 		        + "  	   </tr>\r\n"
 				+ "      </table>\r\n"
@@ -112,7 +112,7 @@ public class SpaceUtil {
 				+ "      <table\r\n"
 				+ "        style=\"border: 1px solid black; border-style: collapse; width: 90%\"\r\n"
 				+ "      >\r\n"
-				+ "        <tr style=\"background-color: #41ecff\">\r\n"
+				+ "        <tr style=\"background-color: #05033e\">\r\n"
 				+ "          <th style=\"text-align: left; padding: 8px\">Ticket Fare</th>\r\n"
 				+ "          <th style=\"text-align: left; padding: 8px\">\r\n"
 				+ "            Alien Propulsion Service Charge\r\n"
