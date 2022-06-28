@@ -408,7 +408,7 @@ public class SpaceService {
 		BookingDetailsEntity bookingDetails = new BookingDetailsEntity();
 		String user2Name = null;
 		String user2Age = null;
-		String status = null;
+		String status = "CNF";
 		String emailSubject = AppConstants.EMPTY_STR;
 		String emailContent = AppConstants.EMPTY_STR;
 		try {

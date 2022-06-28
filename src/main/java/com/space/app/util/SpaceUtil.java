@@ -49,7 +49,7 @@ public class SpaceUtil {
 				+ "        style=\"border: 1px solid black; border-style: collapse; width: 90%\"\r\n"
 				+ "      >\r\n"
 				+ "        <tr style=\"background-color: #05033e\">\r\n"
-				+ "          <th style=\"text-align: left; padding: 8px\">PNR No</th>\r\n"
+				+ "          <th style=\"text-align: left; color: #ffffff padding: 8px\">PNR No</th>\r\n"
 				+ "        </tr>\r\n"
 				+ "        <tr style=\"background-color: #b7f7fe\">\r\n"
 				+ "          <td style=\"text-align: left; padding: 8px\">"+ bookingDetails.getBookingId() +"</td>\r\n"
