@@ -436,6 +436,7 @@ public class SpaceService {
 				user2Name = generateRequest.getUser2Name();
 				user2Age = generateRequest.getUser2Age().toString();
 				status = "CNF";
+				total = total * 2;
 			}
 
 			// ###### SAVING BOOKING DETAILS ######
