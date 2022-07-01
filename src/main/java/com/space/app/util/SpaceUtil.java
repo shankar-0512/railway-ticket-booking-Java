@@ -95,7 +95,7 @@ public class SpaceUtil {
 				+ "        <tr style=\"background-color: #8787ff\">\r\n"
 				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ generateRequest.getUserName() +"</td>\r\n"
 				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ generateRequest.getUserAge() +"</td>\r\n"
-				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ status +"</td>\r\n"
+				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">CNF</td>\r\n"
 				//+ "          <td style=\"text-align: left; padding: 8px\">25A</td>\r\n"
 				+ "        </tr>\r\n"
 				+ "		   <tr style=\"background-color: #8787ff\">\r\n"
