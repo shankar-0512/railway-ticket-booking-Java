@@ -8,7 +8,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.foodApis</groupId>
-	<artifactId>food-ordering-project</artifactId>
+	<artifactId>space-ticket-booking-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>space-ticket-booking-app</name>
 	<description>Demo project for Spring Boot</description>
