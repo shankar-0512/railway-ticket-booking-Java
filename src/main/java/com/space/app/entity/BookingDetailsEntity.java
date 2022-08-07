@@ -1,5 +1,7 @@
 package com.space.app.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,7 +54,7 @@ public class BookingDetailsEntity {
 	private String shipClass;
 	
 	@Column(name="journey_date")
-	private String journeyDate;
+	private Date journeyDate;
 	
 	@Column(name="boarding")
 	private String boarding;
@@ -62,5 +64,8 @@ public class BookingDetailsEntity {
 	
 	@Column(name="duration")
 	private Integer duration;
+	
+	@Column(name="booking_status")
+	private String bookingStatus;
 
 }

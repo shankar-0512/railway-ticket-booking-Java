@@ -35,6 +35,7 @@ import com.space.app.dto.ProfileResponseDTO;
 import com.space.app.dto.ShipsRequest;
 import com.space.app.dto.ShipsResponse;
 import com.space.app.dto.VerifyUserRequestDTO;
+import com.space.app.entity.AvailableTicketsEntity;
 import com.space.app.entity.BookingDetailsEntity;
 import com.space.app.entity.ClassDetailsEntity;
 import com.space.app.entity.RouteDetailsEntity;
@@ -42,6 +43,7 @@ import com.space.app.entity.ShipDetailsEntity;
 import com.space.app.entity.UserDetailsEntity;
 import com.space.app.entity.UserIdOtpMapEntity;
 import com.space.app.exception.SpaceException;
+import com.space.app.repo.AvailableTicketsRepo;
 import com.space.app.repo.BookingDetailsRepo;
 import com.space.app.repo.ClassDetailsRepo;
 import com.space.app.repo.RouteDetailsRepo;
@@ -81,6 +83,9 @@ public class SpaceService {
 
 	@Autowired
 	BookingDetailsRepo bookingDetailsRepo;
+
+	@Autowired
+	AvailableTicketsRepo availableTicketsRepo;
 
 	public static final Logger logger = LoggerFactory.getLogger(SpaceService.class);
 
@@ -406,9 +411,12 @@ public class SpaceService {
 		ClassDetailsEntity classEntity = new ClassDetailsEntity();
 		RouteDetailsEntity routeDetails = new RouteDetailsEntity();
 		BookingDetailsEntity bookingDetails = new BookingDetailsEntity();
+		AvailableTicketsEntity availableTicketsFetch = new AvailableTicketsEntity();
+		AvailableTicketsEntity availableTickets = new AvailableTicketsEntity();
 		String user2Name = null;
 		String user2Age = null;
 		String status = "CNF";
+		String twoUsersFlag = AppConstants.N_STR;
 		String emailSubject = AppConstants.EMPTY_STR;
 		String emailContent = AppConstants.EMPTY_STR;
 		try {
@@ -430,13 +438,48 @@ public class SpaceService {
 			if (generateRequest.getUser2Name().equals(AppConstants.EMPTY_STR)) {
 				user2Name = AppConstants.HYPHEN;
 				user2Age = AppConstants.HYPHEN;
-				status = AppConstants.HYPHEN;
-				
+
 			} else {
 				user2Name = generateRequest.getUser2Name();
 				user2Age = generateRequest.getUser2Age().toString();
-				status = "CNF";
 				total = total * 2;
+				twoUsersFlag = AppConstants.Y_STR;
+			}
+
+			// ###### ADDING TICKET COUNT ######
+
+			availableTicketsFetch = availableTicketsRepo.findByJourneyDateAndShipId(generateRequest.getJourneyDate(),
+					generateRequest.getShipId());
+
+			// NO BOOKING HAS BEEN MADE ON THIS DATE
+			if (availableTicketsFetch == null) {
+				availableTickets.setJourneyDate(generateRequest.getJourneyDate());
+				availableTickets.setTickets(AppConstants.ONE);
+				availableTickets.setShipId(generateRequest.getShipId());
+
+				availableTicketsRepo.save(availableTickets);
+				status = "CNF";
+
+				// BOOKINGS HAS BEEN MADE ON THIS DATE
+			} else {
+
+				if (twoUsersFlag.equals(AppConstants.N_STR)) {
+
+					if (availableTicketsFetch.getTickets() >= 100) {
+						status = "WL";
+					}
+				} else {
+
+					if (availableTicketsFetch.getTickets() >= 99) {
+						status = "WL";
+					}
+
+				}
+
+				Integer tickets = availableTicketsFetch.getTickets() + 1;
+				availableTicketsFetch.setTickets(tickets);
+
+				availableTicketsRepo.save(availableTicketsFetch);
 			}
 
 			// ###### SAVING BOOKING DETAILS ######
@@ -454,6 +497,7 @@ public class SpaceService {
 			bookingDetails.setTraveller2Age(generateRequest.getUser2Age());
 			bookingDetails.setTravellerEmail(generateRequest.getUserEmail());
 			bookingDetails.setUserId(generateRequest.getUserId());
+			bookingDetails.setBookingStatus(status);
 
 			bookingDetails = bookingDetailsRepo.save(bookingDetails);
 
@@ -513,6 +557,7 @@ public class SpaceService {
 				booking.setDuration(entity.getDuration());
 				booking.setJourneyDate(entity.getJourneyDate());
 				booking.setPrice(entity.getPrice());
+				booking.setBookingStatus(entity.getBookingStatus());
 
 				bookingList.add(booking);
 			}

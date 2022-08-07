@@ -1,5 +1,7 @@
 package com.space.app.dto;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +18,7 @@ public class GenerateEticketRequestDTO {
 	String shipClass;
 	String boardingStation;
 	String arrivalStation;
-	String journeyDate;
+	Date journeyDate;
 	Integer duration;
 	Integer ticketFare;
 	String userId;

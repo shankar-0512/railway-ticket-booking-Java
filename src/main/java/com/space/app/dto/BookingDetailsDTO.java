@@ -1,5 +1,7 @@
 package com.space.app.dto;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +13,8 @@ public class BookingDetailsDTO {
 	String shipName;
 	String boarding;
 	String arrival;
-	String journeyDate;
+	Date journeyDate;
 	Integer duration;
 	Double price;
+	String bookingStatus;
 }
