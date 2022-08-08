@@ -32,17 +32,11 @@ public class BookingDetailsEntity {
 	@Column(name="price")
 	private Double price;
 	
-	@Column(name="traveller1_name")
-	private String traveller1Name;
+	@Column(name="traveller_name")
+	private String travellerName;
 	
-	@Column(name="traveller1_age")
-	private Integer traveller1Age;
-	
-	@Column(name="traveller2_name")
-	private String traveller2Name;
-	
-	@Column(name="traveller2_age")
-	private Integer traveller2Age;
+	@Column(name="traveller_age")
+	private Integer travellerAge;
 	
 	@Column(name="ship_id")
 	private Integer shipId;
@@ -52,6 +46,9 @@ public class BookingDetailsEntity {
 	
 	@Column(name="ship_class")
 	private String shipClass;
+	
+	@Column(name="class_id")
+	private Integer classId;
 	
 	@Column(name="journey_date")
 	private Date journeyDate;

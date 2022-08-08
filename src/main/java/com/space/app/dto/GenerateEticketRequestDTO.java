@@ -10,10 +10,8 @@ import lombok.Setter;
 public class GenerateEticketRequestDTO {
 	
 	String userName;
-	String user2Name;
 	String userEmail;
 	Integer userAge;
-	Integer user2Age;
 	Integer shipId;
 	String shipClass;
 	String boardingStation;

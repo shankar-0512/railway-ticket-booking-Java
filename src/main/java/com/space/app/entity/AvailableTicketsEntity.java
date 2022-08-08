@@ -25,5 +25,8 @@ public class AvailableTicketsEntity {
 	
 	@Column(name="ship_id")
 	private Integer shipId;
+	
+	@Column(name="class_id")
+	private Integer classId;
 
 }

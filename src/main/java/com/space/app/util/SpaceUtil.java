@@ -20,7 +20,7 @@ public class SpaceUtil {
 	}
 	
 	public static String generateTicketEmailContent(GenerateEticketRequestDTO generateRequest, ShipDetailsEntity shipDetails,
-			BookingDetailsEntity bookingDetails, String user2Name, String user2Age, Integer duration, Double price,
+			BookingDetailsEntity bookingDetails, Integer duration, Double price,
 			Double serviceCharge, Double total, String status) {
 		String emailContent;
 		emailContent = "<!DOCTYPE html>\r\n"
@@ -98,12 +98,6 @@ public class SpaceUtil {
 				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ status +"</td>\r\n"
 				//+ "          <td style=\"text-align: left; padding: 8px\">25A</td>\r\n"
 				+ "        </tr>\r\n"
-				+ "		   <tr style=\"background-color: #8787ff\">\r\n"
-		        + "  		 <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ user2Name +"</td>\r\n"
-		        + "  		 <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ user2Age +"</td>\r\n"
-		        + "  		 <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ status +"</td>\r\n"
-		        //+ "  		 <td style=\"text-align: left; padding: 8px\">25B</td>\r\n"
-		        + "  	   </tr>\r\n"
 				+ "      </table>\r\n"
 				+ "    </div>\r\n"
 				+ "\r\n"

@@ -134,8 +134,6 @@ public class MockedRequest {
 		request.setShipClass("Economy");
 		request.setShipId(1);
 		request.setTicketFare(50);
-		request.setUser2Age(23);
-		request.setUser2Name("Shankar");
 		request.setUserAge(17);
 		request.setUserName("Sohil");
 		request.setUserEmail("email@gmail.com");
@@ -154,7 +152,6 @@ public class MockedRequest {
 		request.setShipClass("Economy");
 		request.setShipId(1);
 		request.setTicketFare(50);
-		request.setUser2Name("");
 		request.setUserAge(17);
 		request.setUserName("Sohil");
 		request.setUserEmail("email@gmail.com");

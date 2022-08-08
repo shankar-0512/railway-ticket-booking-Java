@@ -117,15 +117,29 @@ public class RepoResponse {
 		entity.setShipClass("Economy");
 		entity.setShipId(1);
 		entity.setShipName("Europa");
-		entity.setTraveller1Age(23);
-		entity.setTraveller1Name("Shankar");
-		entity.setTraveller2Age(17);
-		entity.setTraveller2Name("Sohil");
 		entity.setTravellerEmail("email@gmail.com");
 		entity.setUserId("email@gmail.com");
 		entityList.add(entity);
 
 		return entityList;
+	}
+	
+	public static BookingDetailsEntity getBookingDetail() {
+		BookingDetailsEntity entity = new BookingDetailsEntity();
+		Date date = new Date(19/06/2022);
+		entity.setArrival("Mars");
+		entity.setBoarding("Earth");
+		entity.setBookingId(1);
+		entity.setDuration(50);
+		entity.setJourneyDate(date);
+		entity.setPrice(5.0);
+		entity.setShipClass("Economy");
+		entity.setShipId(1);
+		entity.setShipName("Europa");
+		entity.setTravellerEmail("email@gmail.com");
+		entity.setUserId("email@gmail.com");
+
+		return entity;
 	}
 
 	public static AvailableTicketsEntity getTicketStatus() {
@@ -138,6 +152,13 @@ public class RepoResponse {
 	public static AvailableTicketsEntity getTicketStatus2() {
 		AvailableTicketsEntity entity = new AvailableTicketsEntity();
 		entity.setTickets(150);
+		entity.setShipId(1);
+		return entity;
+	}
+	
+	public static AvailableTicketsEntity getTicketStatus3() {
+		AvailableTicketsEntity entity = new AvailableTicketsEntity();
+		entity.setTickets(0);
 		entity.setShipId(1);
 		return entity;
 	}

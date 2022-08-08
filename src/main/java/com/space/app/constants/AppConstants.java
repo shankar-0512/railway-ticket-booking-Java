@@ -27,6 +27,9 @@ public class AppConstants {
 	public static final String NUMBERS_0_9 = "0123456789";
 	public static final String N_STR = "N";
 	public static final String Y_STR = "Y";
+	public static final Integer TWO = 2;
+	public static final String CONFIRMED_TICKET = "CNF";
+	public static final String WAITLISTED_TICKET = "WL";
 	
 
 }

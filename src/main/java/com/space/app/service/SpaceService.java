@@ -413,10 +413,7 @@ public class SpaceService {
 		BookingDetailsEntity bookingDetails = new BookingDetailsEntity();
 		AvailableTicketsEntity availableTicketsFetch = new AvailableTicketsEntity();
 		AvailableTicketsEntity availableTickets = new AvailableTicketsEntity();
-		String user2Name = null;
-		String user2Age = null;
-		String status = "CNF";
-		String twoUsersFlag = AppConstants.N_STR;
+		String status = AppConstants.CONFIRMED_TICKET;
 		String emailSubject = AppConstants.EMPTY_STR;
 		String emailContent = AppConstants.EMPTY_STR;
 		try {
@@ -435,45 +432,25 @@ public class SpaceService {
 			Double serviceCharge = 10.5;
 			Double total = price + serviceCharge;
 
-			if (generateRequest.getUser2Name().equals(AppConstants.EMPTY_STR)) {
-				user2Name = AppConstants.HYPHEN;
-				user2Age = AppConstants.HYPHEN;
-
-			} else {
-				user2Name = generateRequest.getUser2Name();
-				user2Age = generateRequest.getUser2Age().toString();
-				total = total * 2;
-				twoUsersFlag = AppConstants.Y_STR;
-			}
-
 			// ###### ADDING TICKET COUNT ######
 
-			availableTicketsFetch = availableTicketsRepo.findByJourneyDateAndShipId(generateRequest.getJourneyDate(),
-					generateRequest.getShipId());
+			availableTicketsFetch = availableTicketsRepo.findByJourneyDateAndShipIdAndClassId(
+					generateRequest.getJourneyDate(), generateRequest.getShipId(), classEntity.getClassId());
 
 			// NO BOOKING HAS BEEN MADE ON THIS DATE
 			if (availableTicketsFetch == null) {
 				availableTickets.setJourneyDate(generateRequest.getJourneyDate());
 				availableTickets.setTickets(AppConstants.ONE);
 				availableTickets.setShipId(generateRequest.getShipId());
+				availableTickets.setClassId(classEntity.getClassId());
 
 				availableTicketsRepo.save(availableTickets);
-				status = "CNF";
 
 				// BOOKINGS HAS BEEN MADE ON THIS DATE
 			} else {
 
-				if (twoUsersFlag.equals(AppConstants.N_STR)) {
-
-					if (availableTicketsFetch.getTickets() >= 100) {
-						status = "WL";
-					}
-				} else {
-
-					if (availableTicketsFetch.getTickets() >= 99) {
-						status = "WL";
-					}
-
+				if (availableTicketsFetch.getTickets() >= 10) {
+					status = AppConstants.WAITLISTED_TICKET;
 				}
 
 				Integer tickets = availableTicketsFetch.getTickets() + 1;
@@ -486,15 +463,14 @@ public class SpaceService {
 			bookingDetails.setJourneyDate(generateRequest.getJourneyDate());
 			bookingDetails.setPrice(total);
 			bookingDetails.setShipClass(generateRequest.getShipClass());
+			bookingDetails.setClassId(classEntity.getClassId());
 			bookingDetails.setShipId(generateRequest.getShipId());
 			bookingDetails.setShipName(shipDetails.getShipName());
 			bookingDetails.setBoarding(generateRequest.getBoardingStation());
 			bookingDetails.setArrival(generateRequest.getArrivalStation());
 			bookingDetails.setDuration(duration);
-			bookingDetails.setTraveller1Name(generateRequest.getUserName());
-			bookingDetails.setTraveller1Age(generateRequest.getUserAge());
-			bookingDetails.setTraveller2Name(generateRequest.getUser2Name());
-			bookingDetails.setTraveller2Age(generateRequest.getUser2Age());
+			bookingDetails.setTravellerName(generateRequest.getUserName());
+			bookingDetails.setTravellerAge(generateRequest.getUserAge());
 			bookingDetails.setTravellerEmail(generateRequest.getUserEmail());
 			bookingDetails.setUserId(generateRequest.getUserId());
 			bookingDetails.setBookingStatus(status);
@@ -522,8 +498,8 @@ public class SpaceService {
 			});
 
 			emailSubject = "Your E-Ticket";
-			emailContent = SpaceUtil.generateTicketEmailContent(generateRequest, shipDetails, bookingDetails, user2Name,
-					user2Age, duration, price, serviceCharge, total, status);
+			emailContent = SpaceUtil.generateTicketEmailContent(generateRequest, shipDetails, bookingDetails, duration,
+					price, serviceCharge, total, status);
 
 			Message message = prepareMessage(session, myAccountEmail, recipient, emailContent, emailSubject);
 			Transport.send(message);
@@ -623,13 +599,54 @@ public class SpaceService {
 
 	public void cancelTicket(BookingsRequestDTO cancelRequest) throws SpaceException {
 
+		BookingDetailsEntity bookingDetails = new BookingDetailsEntity();
+		AvailableTicketsEntity availableTicketsFetch = new AvailableTicketsEntity();
 		try {
+
+			bookingDetails = bookingDetailsRepo.findByBookingId(cancelRequest.getBookingId());
+
+			availableTicketsFetch = availableTicketsRepo.findByJourneyDateAndShipIdAndClassId(
+					bookingDetails.getJourneyDate(), bookingDetails.getShipId(), bookingDetails.getClassId());
+
+			Integer tickets = availableTicketsFetch.getTickets();
+			tickets = tickets - 1;
+			if (tickets <= 0) {
+				availableTicketsRepo.deleteByJourneyDateAndShipIdAndClassId(bookingDetails.getJourneyDate(),
+						bookingDetails.getShipId(), bookingDetails.getClassId());
+			} else {
+				availableTicketsFetch.setTickets(tickets);
+				availableTicketsRepo.save(availableTicketsFetch);
+				updateTicketStatusOnCancellation(bookingDetails.getShipId(), bookingDetails.getClassId());
+			}
+
 			bookingDetailsRepo.deleteByBookingId(cancelRequest.getBookingId());
 
 		} catch (DataAccessException | PersistenceException e) {
 			logger.error(ErrorConstants.CANCELLATION_ERROR);
 			throw new SpaceException(ErrorConstants.CANCELLATION_ERROR);
 		}
+	}
+
+	public void updateTicketStatusOnCancellation(Integer shipId, Integer classId) throws SpaceException {
+
+		BookingDetailsEntity oldestWaitListedTicket = new BookingDetailsEntity();
+		String status = AppConstants.WAITLISTED_TICKET;
+		try {
+
+			oldestWaitListedTicket = bookingDetailsRepo.fetchOldestWaitListedTicket(status, shipId, classId);
+
+			if (oldestWaitListedTicket == null) {
+				return;
+			}
+
+			oldestWaitListedTicket.setBookingStatus(AppConstants.CONFIRMED_TICKET);
+			bookingDetailsRepo.save(oldestWaitListedTicket);
+
+		} catch (DataAccessException | PersistenceException e) {
+			logger.error(ErrorConstants.CANCELLATION_ERROR);
+			throw new SpaceException(ErrorConstants.CANCELLATION_ERROR);
+		}
+
 	}
 
 }
