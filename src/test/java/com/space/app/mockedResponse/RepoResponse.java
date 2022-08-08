@@ -1,8 +1,10 @@
 package com.space.app.mockedResponse;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.space.app.entity.AvailableTicketsEntity;
 import com.space.app.entity.BookingDetailsEntity;
 import com.space.app.entity.ClassDetailsEntity;
 import com.space.app.entity.RouteDetailsEntity;
@@ -105,11 +107,12 @@ public class RepoResponse {
 	public static List<BookingDetailsEntity> getBookingDetails() {
 		List<BookingDetailsEntity> entityList = new ArrayList<>();
 		BookingDetailsEntity entity = new BookingDetailsEntity();
+		Date date = new Date(19/06/2022);
 		entity.setArrival("Mars");
 		entity.setBoarding("Earth");
 		entity.setBookingId(1);
 		entity.setDuration(50);
-		entity.setJourneyDate("21/06/2022");
+		entity.setJourneyDate(date);
 		entity.setPrice(5.0);
 		entity.setShipClass("Economy");
 		entity.setShipId(1);
@@ -123,6 +126,20 @@ public class RepoResponse {
 		entityList.add(entity);
 
 		return entityList;
+	}
+
+	public static AvailableTicketsEntity getTicketStatus() {
+		AvailableTicketsEntity entity = new AvailableTicketsEntity();
+		entity.setTickets(5);
+		entity.setShipId(1);
+		return entity;
+	}
+	
+	public static AvailableTicketsEntity getTicketStatus2() {
+		AvailableTicketsEntity entity = new AvailableTicketsEntity();
+		entity.setTickets(150);
+		entity.setShipId(1);
+		return entity;
 	}
 
 }

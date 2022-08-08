@@ -22,6 +22,7 @@ import com.space.app.entity.UserIdOtpMapEntity;
 import com.space.app.exception.SpaceException;
 import com.space.app.mockedRequest.MockedRequest;
 import com.space.app.mockedResponse.RepoResponse;
+import com.space.app.repo.AvailableTicketsRepo;
 import com.space.app.repo.BookingDetailsRepo;
 import com.space.app.repo.ClassDetailsRepo;
 import com.space.app.repo.RouteDetailsRepo;
@@ -61,6 +62,9 @@ class SpaceServiceTest {
 
 	@Mock
 	BookingDetailsRepo bookingDetailsRepo;
+	
+	@Mock
+	AvailableTicketsRepo availableTicketsRepo;
 
 	@Mock
 	Transport transport;
@@ -363,14 +367,55 @@ class SpaceServiceTest {
 				.thenReturn(RepoResponse.getRouteDetails());
 		Mockito.when(bookingDetailsRepo.save(Mockito.any())).thenReturn(new BookingDetailsEntity());
 		transport.sendMessage(null, null);
+		
+		Mockito.when(availableTicketsRepo.findByJourneyDateAndShipId(Mockito.any(), Mockito.any()))
+				.thenReturn(RepoResponse.getTicketStatus());
 
 		String actualJson = MapToJson(spaceService.generateEticket(MockedRequest.getGenerateETicket()));
 		String expectedJson = "{\"responseCode\":null,\"responseMessage\":null,\"userId\":null}";
 		assertThat(actualJson).isEqualTo(expectedJson);
 	}
+	
+	@Test
+	void generateWaitListEticketSuccessTest() throws SpaceException, JsonProcessingException, MessagingException {
 
+		Mockito.when(shipDetailsRepo.fetchShipDetail(Mockito.any())).thenReturn(RepoResponse.getShipDetail());
+		Mockito.when(classDetailsRepo.fetchClassIdWithClassName(Mockito.any()))
+				.thenReturn(RepoResponse.getClassDetails());
+		Mockito.when(routeDetailsRepo.fetchRouteDetails(Mockito.any(), Mockito.any()))
+				.thenReturn(RepoResponse.getRouteDetails());
+		Mockito.when(bookingDetailsRepo.save(Mockito.any())).thenReturn(new BookingDetailsEntity());
+		transport.sendMessage(null, null);
+		
+		Mockito.when(availableTicketsRepo.findByJourneyDateAndShipId(Mockito.any(), Mockito.any()))
+				.thenReturn(RepoResponse.getTicketStatus2());
+
+		String actualJson = MapToJson(spaceService.generateEticket(MockedRequest.getGenerateETicket()));
+		String expectedJson = "{\"responseCode\":null,\"responseMessage\":null,\"userId\":null}";
+		assertThat(actualJson).isEqualTo(expectedJson);
+	}
+	
 	@Test
 	void generateEticketEmptyUser2Test() throws SpaceException, JsonProcessingException, MessagingException {
+
+		Mockito.when(shipDetailsRepo.fetchShipDetail(Mockito.any())).thenReturn(RepoResponse.getShipDetail());
+		Mockito.when(classDetailsRepo.fetchClassIdWithClassName(Mockito.any()))
+				.thenReturn(RepoResponse.getClassDetails());
+		Mockito.when(routeDetailsRepo.fetchRouteDetails(Mockito.any(), Mockito.any()))
+				.thenReturn(RepoResponse.getRouteDetails());
+		Mockito.when(bookingDetailsRepo.save(Mockito.any())).thenReturn(new BookingDetailsEntity());
+		transport.sendMessage(null, null);
+		
+		Mockito.when(availableTicketsRepo.findByJourneyDateAndShipId(Mockito.any(), Mockito.any()))
+		.thenReturn(RepoResponse.getTicketStatus2());
+
+		String actualJson = MapToJson(spaceService.generateEticket(MockedRequest.getGenerateETicketEmptyUser2()));
+		String expectedJson = "{\"responseCode\":null,\"responseMessage\":null,\"userId\":null}";
+		assertThat(actualJson).isEqualTo(expectedJson);
+	}
+
+	@Test
+	void generateEticketEmptyUser2AvailableTicketNullTest() throws SpaceException, JsonProcessingException, MessagingException {
 
 		Mockito.when(shipDetailsRepo.fetchShipDetail(Mockito.any())).thenReturn(RepoResponse.getShipDetail());
 		Mockito.when(classDetailsRepo.fetchClassIdWithClassName(Mockito.any()))
@@ -403,7 +448,7 @@ class SpaceServiceTest {
 				.thenReturn(RepoResponse.getBookingDetails());
 
 		String actualJson = MapToJson(spaceService.fetchBookingDetails(MockedRequest.getFetchRequest()));
-		String expectedJson = "[{\"bookingId\":1,\"shipName\":\"Europa\",\"boarding\":\"Earth\",\"arrival\":\"Mars\",\"journeyDate\":\"21/06/2022\",\"duration\":50,\"price\":5.0}]";
+		String expectedJson = "[{\"bookingId\":1,\"shipName\":\"Europa\",\"boarding\":\"Earth\",\"arrival\":\"Mars\",\"journeyDate\":0,\"duration\":50,\"price\":5.0,\"bookingStatus\":null}]";
 		assertThat(actualJson).isEqualTo(expectedJson);
 	}
 

@@ -1,5 +1,7 @@
 package com.space.app.mockedRequest;
 
+import java.util.Date;
+
 import com.space.app.dto.BookingsRequestDTO;
 import com.space.app.dto.ChangePasswordRequestDTO;
 import com.space.app.dto.GenerateEticketRequestDTO;
@@ -124,10 +126,11 @@ public class MockedRequest {
 
 	public static GenerateEticketRequestDTO getGenerateETicket() {
 		GenerateEticketRequestDTO request = new GenerateEticketRequestDTO();
+		Date date = new Date(19/06/2022);
 		request.setArrivalStation("Mars");
 		request.setBoardingStation("Earth");
 		request.setDuration(50);
-		request.setJourneyDate("19/06/2022");
+		request.setJourneyDate(date);
 		request.setShipClass("Economy");
 		request.setShipId(1);
 		request.setTicketFare(50);
@@ -143,10 +146,11 @@ public class MockedRequest {
 
 	public static GenerateEticketRequestDTO getGenerateETicketEmptyUser2() {
 		GenerateEticketRequestDTO request = new GenerateEticketRequestDTO();
+		Date date = new Date(19/06/2022);
 		request.setArrivalStation("Mars");
 		request.setBoardingStation("Earth");
 		request.setDuration(50);
-		request.setJourneyDate("19/06/2022");
+		request.setJourneyDate(date);
 		request.setShipClass("Economy");
 		request.setShipId(1);
 		request.setTicketFare(50);
