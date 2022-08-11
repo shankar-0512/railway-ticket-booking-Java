@@ -434,27 +434,30 @@ public class SpaceService {
 
 			// ###### ADDING TICKET COUNT ######
 
-			availableTicketsFetch = availableTicketsRepo.findByJourneyDateAndShipIdAndClassId(
-					generateRequest.getJourneyDate(), generateRequest.getShipId(), classEntity.getClassId());
+			availableTicketsFetch = availableTicketsRepo.findBySelectionDetails(generateRequest.getJourneyDate(),
+					generateRequest.getShipId(), classEntity.getClassId(), generateRequest.getBoardingStation(),
+					generateRequest.getArrivalStation());
 
 			// NO BOOKING HAS BEEN MADE ON THIS DATE
 			if (availableTicketsFetch == null) {
 				availableTickets.setJourneyDate(generateRequest.getJourneyDate());
-				availableTickets.setTickets(AppConstants.ONE);
+				availableTickets.setTicketsBooked(AppConstants.ONE);
 				availableTickets.setShipId(generateRequest.getShipId());
 				availableTickets.setClassId(classEntity.getClassId());
+				availableTickets.setFrom(generateRequest.getBoardingStation());
+				availableTickets.setTo(generateRequest.getArrivalStation());
 
 				availableTicketsRepo.save(availableTickets);
 
 				// BOOKINGS HAS BEEN MADE ON THIS DATE
 			} else {
 
-				if (availableTicketsFetch.getTickets() >= 10) {
+				if (availableTicketsFetch.getTicketsBooked() >= 10) {
 					status = AppConstants.WAITLISTED_TICKET;
 				}
 
-				Integer tickets = availableTicketsFetch.getTickets() + 1;
-				availableTicketsFetch.setTickets(tickets);
+				Integer tickets = availableTicketsFetch.getTicketsBooked() + 1;
+				availableTicketsFetch.setTicketsBooked(tickets);
 
 				availableTicketsRepo.save(availableTicketsFetch);
 			}
@@ -605,16 +608,17 @@ public class SpaceService {
 
 			bookingDetails = bookingDetailsRepo.findByBookingId(cancelRequest.getBookingId());
 
-			availableTicketsFetch = availableTicketsRepo.findByJourneyDateAndShipIdAndClassId(
-					bookingDetails.getJourneyDate(), bookingDetails.getShipId(), bookingDetails.getClassId());
+			availableTicketsFetch = availableTicketsRepo.findBySelectionDetails(bookingDetails.getJourneyDate(),
+					bookingDetails.getShipId(), bookingDetails.getClassId(), bookingDetails.getBoarding(),
+					bookingDetails.getArrival());
 
-			Integer tickets = availableTicketsFetch.getTickets();
+			Integer tickets = availableTicketsFetch.getTicketsBooked();
 			tickets = tickets - 1;
 			if (tickets <= 0) {
 				availableTicketsRepo.deleteByJourneyDateAndShipIdAndClassId(bookingDetails.getJourneyDate(),
 						bookingDetails.getShipId(), bookingDetails.getClassId());
 			} else {
-				availableTicketsFetch.setTickets(tickets);
+				availableTicketsFetch.setTicketsBooked(tickets);
 				availableTicketsRepo.save(availableTicketsFetch);
 				updateTicketStatusOnCancellation(bookingDetails.getShipId(), bookingDetails.getClassId());
 			}

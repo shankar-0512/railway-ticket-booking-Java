@@ -144,21 +144,21 @@ public class RepoResponse {
 
 	public static AvailableTicketsEntity getTicketStatus() {
 		AvailableTicketsEntity entity = new AvailableTicketsEntity();
-		entity.setTickets(5);
+		entity.setTicketsBooked(5);
 		entity.setShipId(1);
 		return entity;
 	}
 	
 	public static AvailableTicketsEntity getTicketStatus2() {
 		AvailableTicketsEntity entity = new AvailableTicketsEntity();
-		entity.setTickets(150);
+		entity.setTicketsBooked(150);
 		entity.setShipId(1);
 		return entity;
 	}
 	
 	public static AvailableTicketsEntity getTicketStatus3() {
 		AvailableTicketsEntity entity = new AvailableTicketsEntity();
-		entity.setTickets(0);
+		entity.setTicketsBooked(0);
 		entity.setShipId(1);
 		return entity;
 	}
