@@ -35,10 +35,10 @@ public class AvailableTicketsEntity {
 	@Column(name="tickets_booked")
 	private Integer ticketsBooked;
 	
-	@Column(name="from")
-	private String from;
+	@Column(name="boarding")
+	private String boarding;
 	
-	@Column(name="to")
-	private String to;
+	@Column(name="destination")
+	private String destination;
 
 }

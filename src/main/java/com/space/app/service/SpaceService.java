@@ -444,8 +444,8 @@ public class SpaceService {
 				availableTickets.setTicketsBooked(AppConstants.ONE);
 				availableTickets.setShipId(generateRequest.getShipId());
 				availableTickets.setClassId(classEntity.getClassId());
-				availableTickets.setFrom(generateRequest.getBoardingStation());
-				availableTickets.setTo(generateRequest.getArrivalStation());
+				availableTickets.setBoarding(generateRequest.getBoardingStation());
+				availableTickets.setDestination(generateRequest.getArrivalStation());
 
 				availableTicketsRepo.save(availableTickets);
 
