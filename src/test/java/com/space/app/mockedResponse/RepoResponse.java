@@ -162,5 +162,15 @@ public class RepoResponse {
 		entity.setShipId(1);
 		return entity;
 	}
+	
+	public static List<AvailableTicketsEntity> getAllTicketStatus() {
+		List<AvailableTicketsEntity> entityList = new ArrayList<>();
+		AvailableTicketsEntity entity = new AvailableTicketsEntity();
+		entity.setTicketsBooked(5);
+		entity.setShipId(1);
+		entityList.add(entity);
+		
+		return entityList;
+	}
 
 }

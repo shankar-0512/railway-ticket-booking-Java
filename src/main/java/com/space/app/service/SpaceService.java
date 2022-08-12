@@ -1,7 +1,9 @@
 package com.space.app.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
@@ -166,6 +168,8 @@ public class SpaceService {
 		RouteDetailsEntity routeDetails = new RouteDetailsEntity();
 		ClassDetailsEntity classEntity = new ClassDetailsEntity();
 		List<ShipDetailsEntity> shipEntity = new ArrayList<>();
+		List<AvailableTicketsEntity> availableTicketsFetch = new ArrayList<>();
+		Map<Integer, AvailableTicketsEntity> shipIdTicketMap = new HashMap<>();
 
 		try {
 
@@ -187,12 +191,26 @@ public class SpaceService {
 			// fetching ship details.
 			shipEntity = shipDetailsRepo.fetchShipDetails(filteredShipIds);
 
+			availableTicketsFetch = availableTicketsRepo.findAllBySelectionDetails(shipsRequest.getJourneyDate(),
+					classEntity.getClassId(), shipsRequest.getFrom(), shipsRequest.getTo());
+			
+			for(AvailableTicketsEntity list : availableTicketsFetch) {
+				shipIdTicketMap.put(list.getShipId(), list);
+			}
+
 			for (ShipDetailsEntity ship : shipEntity) {
+				
+				Integer ticketsBooked = 0;
+				if(shipIdTicketMap.get(ship.getShipId()) != null) {
+					ticketsBooked = shipIdTicketMap.get(ship.getShipId()).getTicketsBooked();
+				}
+				
 				ShipsResponse response = new ShipsResponse();
 				response.setShipId(ship.getShipId());
 				response.setShipName(ship.getShipName());
 				response.setDuration(routeDetails.getDistance() / ship.getSpeed());
 				response.setPrice(ship.getBasePrice() * classEntity.getPriceMultiply());
+				response.setTicketsAvailable(AppConstants.TOTAL_TICKET_COUNT - ticketsBooked);
 				shipsResponseList.add(response);
 			}
 
@@ -452,7 +470,7 @@ public class SpaceService {
 				// BOOKINGS HAS BEEN MADE ON THIS DATE
 			} else {
 
-				if (availableTicketsFetch.getTicketsBooked() >= 5) {
+				if (availableTicketsFetch.getTicketsBooked() >= AppConstants.TOTAL_TICKET_COUNT) {
 					status = AppConstants.WAITLISTED_TICKET;
 				}
 

@@ -169,9 +169,12 @@ class SpaceServiceTest {
 		Mockito.when(shipRoutesRepo.fetchShipIdsWithRouteId(Mockito.any(), Mockito.any()))
 				.thenReturn(RepoResponse.getShipIdsWithRouteId());
 		Mockito.when(shipDetailsRepo.fetchShipDetails(Mockito.any())).thenReturn(RepoResponse.getShipDetails());
-
+		Mockito.when(
+				availableTicketsRepo.findAllBySelectionDetails(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+				.thenReturn(RepoResponse.getAllTicketStatus());
+		
 		String actualJson = MapToJson(spaceService.searchShips(MockedRequest.getShipsRequest()));
-		String expectedJson = "[{\"responseCode\":null,\"responseMessage\":null,\"userId\":null,\"shipId\":1,\"shipName\":\"Europa\",\"duration\":10,\"price\":50.0}]";
+		String expectedJson = "[{\"responseCode\":null,\"responseMessage\":null,\"userId\":null,\"shipId\":1,\"shipName\":\"Europa\",\"duration\":10,\"price\":50.0,\"ticketsAvailable\":0}]";
 		assertThat(actualJson).isEqualTo(expectedJson);
 	}
 

@@ -30,6 +30,7 @@ public class AppConstants {
 	public static final Integer TWO = 2;
 	public static final String CONFIRMED_TICKET = "CNF";
 	public static final String WAITLISTED_TICKET = "WL";
+	public static final Integer TOTAL_TICKET_COUNT = 5;
 	
 
 }

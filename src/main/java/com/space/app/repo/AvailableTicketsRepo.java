@@ -1,6 +1,7 @@
 package com.space.app.repo;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -18,6 +19,11 @@ public interface AvailableTicketsRepo extends JpaRepository<AvailableTicketsEnti
 	@Query(value = "select * from public.available_tickets where journey_date=:journeyDate and ship_id=:shipId and class_id=:classId and boarding=:boarding and destination=:destination", nativeQuery = true)
 	AvailableTicketsEntity findBySelectionDetails(@Param("journeyDate") Date journeyDate,
 			@Param("shipId") Integer shipId, @Param("classId") Integer classId, @Param("boarding") String boarding,
+			@Param("destination") String destination);
+
+	@Query(value = "select * from public.available_tickets where journey_date=:journeyDate and class_id=:classId and boarding=:boarding and destination=:destination", nativeQuery = true)
+	List<AvailableTicketsEntity> findAllBySelectionDetails(@Param("journeyDate") Date journeyDate,
+			@Param("classId") Integer classId, @Param("boarding") String boarding,
 			@Param("destination") String destination);
 
 	@Transactional

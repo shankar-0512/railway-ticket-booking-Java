@@ -11,5 +11,6 @@ public class ShipsResponse extends CommonResponseDTO {
 	String shipName;
 	Integer duration;
 	Double price;
+	Integer ticketsAvailable;
 
 }
