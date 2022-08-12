@@ -452,7 +452,7 @@ public class SpaceService {
 				// BOOKINGS HAS BEEN MADE ON THIS DATE
 			} else {
 
-				if (availableTicketsFetch.getTicketsBooked() >= 10) {
+				if (availableTicketsFetch.getTicketsBooked() >= 5) {
 					status = AppConstants.WAITLISTED_TICKET;
 				}
 
