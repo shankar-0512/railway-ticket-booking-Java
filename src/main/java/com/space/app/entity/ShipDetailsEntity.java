@@ -27,7 +27,7 @@ public class ShipDetailsEntity {
 	@Column(name="base_price")
 	private Double basePrice;
 	
-	@Column(name="speed_per_second")
+	@Column(name="speed_per_hour")
 	private Integer speed;
 
 }
