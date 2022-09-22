@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import com.space.app.dto.GenerateEticketRequestDTO;
 import com.space.app.entity.BookingDetailsEntity;
-import com.space.app.entity.ShipDetailsEntity;
+import com.space.app.entity.TrainDetailsEntity;
 
 public class SpaceUtil {
 	
@@ -19,7 +19,7 @@ public class SpaceUtil {
 		return Timestamp.valueOf(currentTs);
 	}
 	
-	public static String generateTicketEmailContent(GenerateEticketRequestDTO generateRequest, ShipDetailsEntity shipDetails,
+	public static String generateTicketEmailContent(GenerateEticketRequestDTO generateRequest, TrainDetailsEntity shipDetails,
 			BookingDetailsEntity bookingDetails, Integer duration, Double price,
 			Double serviceCharge, Double total, String status) {
 		String emailContent;
@@ -71,8 +71,8 @@ public class SpaceUtil {
 				+ "          <th style=\"text-align: left; color: #ffffff; padding: 8px\">Duration</th>\r\n"
 				+ "        </tr>\r\n"
 				+ "        <tr style=\"background-color: #8787ff\">\r\n"
-				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">" + shipDetails.getShipName() + "</td>\r\n"
-				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ generateRequest.getShipClass() +"</td>\r\n"
+				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">" + shipDetails.getTrainName() + "</td>\r\n"
+				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ generateRequest.getTrainClass() +"</td>\r\n"
 				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ generateRequest.getBoardingStation() +"</td>\r\n"
 				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ generateRequest.getArrivalStation() +"</td>\r\n"
 				+ "          <td style=\"text-align: left; color: #ffffff; padding: 8px\">"+ generateRequest.getJourneyDate() +"</td>\r\n"

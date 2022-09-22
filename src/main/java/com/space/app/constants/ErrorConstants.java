@@ -24,7 +24,7 @@ public class ErrorConstants {
 	//Response or Logger messages
 	public static final String LOGIN_AUTH_ERROR = "LOGIN_AUTH_ERROR";
 	public static final String SIGNUP_ERROR = "SIGNUP_ERROR";
-	public static final String SEARCH_SHIPS_ERROR = "SEARCH_SHIPS_ERROR";
+	public static final String SEARCH_TRAINS_ERROR = "SEARCH_TRAINS_ERROR";
 	public static final String FETCH_PROFILE_ERROR = "FETCH_PROFILE_ERROR";
 	public static final String SAVE_DETAILS_ERROR = "SAVE_DETAILS_ERROR";
 	public static final String VERIFICATION_EMAIL_ERROR = "VERIFICATION_EMAIL_ERROR";

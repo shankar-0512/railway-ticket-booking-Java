@@ -7,11 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ShipsRequest {
+public class TrainsRequest {
 	
 	String from;
 	String to;
 	Date journeyDate;
-	String shipClass;
+	String trainClass;
 
 }

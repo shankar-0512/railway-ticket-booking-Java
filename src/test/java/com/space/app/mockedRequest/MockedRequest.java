@@ -7,7 +7,7 @@ import com.space.app.dto.ChangePasswordRequestDTO;
 import com.space.app.dto.GenerateEticketRequestDTO;
 import com.space.app.dto.LoginDTO;
 import com.space.app.dto.ProfileRequestDTO;
-import com.space.app.dto.ShipsRequest;
+import com.space.app.dto.TrainsRequest;
 import com.space.app.dto.VerifyUserRequestDTO;
 
 public class MockedRequest {
@@ -45,11 +45,11 @@ public class MockedRequest {
 		return login;
 	}
 
-	public static ShipsRequest getShipsRequest() {
-		ShipsRequest request = new ShipsRequest();
+	public static TrainsRequest getTrainsRequest() {
+		TrainsRequest request = new TrainsRequest();
 		request.setFrom("Earth");
 		request.setTo("Mars");
-		request.setShipClass("Economy");
+		request.setTrainClass("Economy");
 
 		return request;
 	}
@@ -131,8 +131,8 @@ public class MockedRequest {
 		request.setBoardingStation("Earth");
 		request.setDuration(50);
 		request.setJourneyDate(date);
-		request.setShipClass("Economy");
-		request.setShipId(1);
+		request.setTrainClass("Economy");
+		request.setTrainId(1);
 		request.setTicketFare(50);
 		request.setUserAge(17);
 		request.setUserName("Sohil");
@@ -149,8 +149,8 @@ public class MockedRequest {
 		request.setBoardingStation("Earth");
 		request.setDuration(50);
 		request.setJourneyDate(date);
-		request.setShipClass("Economy");
-		request.setShipId(1);
+		request.setTrainClass("Economy");
+		request.setTrainId(1);
 		request.setTicketFare(50);
 		request.setUserAge(17);
 		request.setUserName("Sohil");

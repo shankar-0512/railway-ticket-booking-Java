@@ -5,10 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ShipsResponse extends CommonResponseDTO {
+public class TrainsResponse extends CommonResponseDTO {
 	
-	Integer shipId;
-	String shipName;
+	Integer trainId;
+	String trainName;
 	Integer duration;
 	Double price;
 	Integer ticketsAvailable;

@@ -13,15 +13,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="ship_class_map", schema="public")
-public class ShipClassMapEntity {
+@Table(name="train_class_map", schema="public")
+public class TrainClassMapEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="map_id")
 	private Integer mapId;
 	
-	@Column(name="ship_id")
+	@Column(name="train_id")
 	private Integer shipId;
 	
 	@Column(name="class_id")

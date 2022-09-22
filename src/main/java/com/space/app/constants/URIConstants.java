@@ -7,7 +7,7 @@ public class URIConstants {
 	}
 	
 	public static final String LOGIN_AUTH = "/api/protected/loginAuth";
-	public static final String SEARCH_SHIPS = "/api/protected/searchShips";
+	public static final String SEARCH_TRAINS = "/api/protected/searchTrains";
 	public static final String FETCH_PROFILE_DETAILS = "/api/protected/fetchProfileDetails";
 	public static final String SAVE_USER_DETAILS = "/api/protected/saveUserDetails";
 	public static final String VERIFY_USER = "/api/protected/verifyUser";

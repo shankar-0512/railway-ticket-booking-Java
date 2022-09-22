@@ -22,8 +22,8 @@ import com.space.app.dto.GenerateEticketRequestDTO;
 import com.space.app.dto.LoginDTO;
 import com.space.app.dto.ProfileRequestDTO;
 import com.space.app.dto.ProfileResponseDTO;
-import com.space.app.dto.ShipsRequest;
-import com.space.app.dto.ShipsResponse;
+import com.space.app.dto.TrainsRequest;
+import com.space.app.dto.TrainsResponse;
 import com.space.app.dto.VerifyUserRequestDTO;
 import com.space.app.exception.SpaceException;
 import com.space.app.service.SpaceService;
@@ -53,17 +53,17 @@ public class SpaceController {
 		return loginResponse;
 	}
 
-	@PostMapping(URIConstants.SEARCH_SHIPS)
-	public List<ShipsResponse> searchShips(@RequestBody ShipsRequest shipsRequest) {
+	@PostMapping(URIConstants.SEARCH_TRAINS)
+	public List<TrainsResponse> searchTrains(@RequestBody TrainsRequest trainsRequest) {
 
-		List<ShipsResponse> shipsResponse = new ArrayList<>();
+		List<TrainsResponse> trainsResponse = new ArrayList<>();
 		try {
-			shipsResponse = spaceService.searchShips(shipsRequest);
+			trainsResponse = spaceService.searchTrains(trainsRequest);
 		} catch (SpaceException ex) {
-			logger.error(ErrorConstants.SEARCH_SHIPS_ERROR);
+			logger.error(ErrorConstants.SEARCH_TRAINS_ERROR);
 		}
 
-		return shipsResponse;
+		return trainsResponse;
 	}
 
 	@PostMapping(URIConstants.FETCH_PROFILE_DETAILS)

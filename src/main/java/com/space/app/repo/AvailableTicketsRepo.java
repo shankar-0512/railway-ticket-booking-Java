@@ -16,9 +16,9 @@ import com.space.app.entity.AvailableTicketsEntity;
 @Repository
 public interface AvailableTicketsRepo extends JpaRepository<AvailableTicketsEntity, Integer> {
 
-	@Query(value = "select * from public.available_tickets where journey_date=:journeyDate and ship_id=:shipId and class_id=:classId and boarding=:boarding and destination=:destination", nativeQuery = true)
+	@Query(value = "select * from public.available_tickets where journey_date=:journeyDate and train_id=:trainId and class_id=:classId and boarding=:boarding and destination=:destination", nativeQuery = true)
 	AvailableTicketsEntity findBySelectionDetails(@Param("journeyDate") Date journeyDate,
-			@Param("shipId") Integer shipId, @Param("classId") Integer classId, @Param("boarding") String boarding,
+			@Param("trainId") Integer trainId, @Param("classId") Integer classId, @Param("boarding") String boarding,
 			@Param("destination") String destination);
 
 	@Query(value = "select * from public.available_tickets where journey_date=:journeyDate and class_id=:classId and boarding=:boarding and destination=:destination", nativeQuery = true)
@@ -28,8 +28,8 @@ public interface AvailableTicketsRepo extends JpaRepository<AvailableTicketsEnti
 
 	@Transactional
 	@Modifying
-	@Query(value = "delete from public.available_tickets where journey_date=:journeyDate and ship_id=:shipId and class_id=:classId", nativeQuery = true)
-	void deleteByJourneyDateAndShipIdAndClassId(@Param("journeyDate") Date journeyDate, @Param("shipId") Integer shipId,
+	@Query(value = "delete from public.available_tickets where journey_date=:journeyDate and train_id=:trainId and class_id=:classId", nativeQuery = true)
+	void deleteByJourneyDateAndTrainIdAndClassId(@Param("journeyDate") Date journeyDate, @Param("trainId") Integer trainId,
 			@Param("classId") Integer classId);
 
 }

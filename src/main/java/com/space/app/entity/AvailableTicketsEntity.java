@@ -26,8 +26,8 @@ public class AvailableTicketsEntity {
 	@Column(name="journey_date")
 	private Date journeyDate;
 	
-	@Column(name="ship_id")
-	private Integer shipId;
+	@Column(name="train_id")
+	private Integer trainId;
 	
 	@Column(name="class_id")
 	private Integer classId;

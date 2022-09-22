@@ -26,9 +26,9 @@ import com.space.app.repo.AvailableTicketsRepo;
 import com.space.app.repo.BookingDetailsRepo;
 import com.space.app.repo.ClassDetailsRepo;
 import com.space.app.repo.RouteDetailsRepo;
-import com.space.app.repo.ShipClassMapRepo;
-import com.space.app.repo.ShipDetailsRepo;
-import com.space.app.repo.ShipRoutesRepo;
+import com.space.app.repo.TrainClassMapRepo;
+import com.space.app.repo.TrainDetailsRepo;
+import com.space.app.repo.TrainRoutesRepo;
 import com.space.app.repo.UserDetailsRepo;
 import com.space.app.repo.UserIdOtpMapRepo;
 
@@ -46,16 +46,16 @@ class SpaceServiceTest {
 	ClassDetailsRepo classDetailsRepo;
 
 	@Mock
-	ShipClassMapRepo shipClassMapRepo;
+	TrainClassMapRepo trainClassMapRepo;
 
 	@Mock
 	RouteDetailsRepo routeDetailsRepo;
 
 	@Mock
-	ShipRoutesRepo shipRoutesRepo;
+	TrainRoutesRepo trainRoutesRepo;
 
 	@Mock
-	ShipDetailsRepo shipDetailsRepo;
+	TrainDetailsRepo trainDetailsRepo;
 
 	@Mock
 	UserIdOtpMapRepo userIdOtpMapRepo;
@@ -158,51 +158,51 @@ class SpaceServiceTest {
 	}
 
 	@Test
-	void searchShipsSuccessTest() throws SpaceException, JsonProcessingException {
+	void searchTrainsSuccessTest() throws SpaceException, JsonProcessingException {
 
 		Mockito.when(classDetailsRepo.fetchClassIdWithClassName(Mockito.any()))
 				.thenReturn(RepoResponse.getClassDetails());
-		Mockito.when(shipClassMapRepo.fetchShipIdsWithClassId(Mockito.any()))
-				.thenReturn(RepoResponse.getShipIdsWithClassId());
+		Mockito.when(trainClassMapRepo.fetchTrainIdsWithClassId(Mockito.any()))
+				.thenReturn(RepoResponse.getTrainIdsWithClassId());
 		Mockito.when(routeDetailsRepo.fetchRouteDetails(Mockito.any(), Mockito.any()))
 				.thenReturn(RepoResponse.getRouteDetails());
-		Mockito.when(shipRoutesRepo.fetchShipIdsWithRouteId(Mockito.any(), Mockito.any()))
-				.thenReturn(RepoResponse.getShipIdsWithRouteId());
-		Mockito.when(shipDetailsRepo.fetchShipDetails(Mockito.any())).thenReturn(RepoResponse.getShipDetails());
+		Mockito.when(trainRoutesRepo.fetchTrainIdsWithRouteId(Mockito.any(), Mockito.any()))
+				.thenReturn(RepoResponse.getTrainIdsWithRouteId());
+		Mockito.when(trainDetailsRepo.fetchTrainDetails(Mockito.any())).thenReturn(RepoResponse.getTrainDetails());
 		Mockito.when(
 				availableTicketsRepo.findAllBySelectionDetails(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
 				.thenReturn(RepoResponse.getAllTicketStatus());
 		
-		String actualJson = MapToJson(spaceService.searchShips(MockedRequest.getShipsRequest()));
-		String expectedJson = "[{\"responseCode\":null,\"responseMessage\":null,\"userId\":null,\"shipId\":1,\"shipName\":\"Europa\",\"duration\":10,\"price\":50.0,\"ticketsAvailable\":0}]";
+		String actualJson = MapToJson(spaceService.searchTrains(MockedRequest.getTrainsRequest()));
+		String expectedJson = "[{\"responseCode\":null,\"responseMessage\":null,\"userId\":null,\"trainId\":1,\"trainName\":\"Europa\",\"duration\":10,\"price\":50.0,\"ticketsAvailable\":0}]";
 		assertThat(actualJson).isEqualTo(expectedJson);
 	}
 
 	@Test
-	void searchShipsNullRoutesTest() throws SpaceException, JsonProcessingException {
+	void searchTrainsNullRoutesTest() throws SpaceException, JsonProcessingException {
 
 		Mockito.when(classDetailsRepo.fetchClassIdWithClassName(Mockito.any()))
 				.thenReturn(RepoResponse.getClassDetails());
-		Mockito.when(shipClassMapRepo.fetchShipIdsWithClassId(Mockito.any()))
-				.thenReturn(RepoResponse.getShipIdsWithClassId());
+		Mockito.when(trainClassMapRepo.fetchTrainIdsWithClassId(Mockito.any()))
+				.thenReturn(RepoResponse.getTrainIdsWithClassId());
 		Mockito.when(routeDetailsRepo.fetchRouteDetails(Mockito.any(), Mockito.any())).thenReturn(null);
-		Mockito.when(shipRoutesRepo.fetchShipIdsWithRouteId(Mockito.any(), Mockito.any()))
-				.thenReturn(RepoResponse.getShipIdsWithRouteId());
-		Mockito.when(shipDetailsRepo.fetchShipDetails(Mockito.any())).thenReturn(RepoResponse.getShipDetails());
+		Mockito.when(trainRoutesRepo.fetchTrainIdsWithRouteId(Mockito.any(), Mockito.any()))
+				.thenReturn(RepoResponse.getTrainIdsWithRouteId());
+		Mockito.when(trainDetailsRepo.fetchTrainDetails(Mockito.any())).thenReturn(RepoResponse.getTrainDetails());
 
-		String actualJson = MapToJson(spaceService.searchShips(MockedRequest.getShipsRequest()));
+		String actualJson = MapToJson(spaceService.searchTrains(MockedRequest.getTrainsRequest()));
 		String expectedJson = "[]";
 		assertThat(actualJson).isEqualTo(expectedJson);
 	}
 
 	@SuppressWarnings("serial")
 	@Test
-	void searchShipsNegTest() throws SpaceException, JsonProcessingException {
+	void searchTrainsNegTest() throws SpaceException, JsonProcessingException {
 
 		Mockito.doThrow(new PersistenceException("FAILURE_CASE") {
 		}).when(classDetailsRepo).fetchClassIdWithClassName(Mockito.any());
 
-		Assertions.assertThrows(SpaceException.class, () -> spaceService.searchShips(MockedRequest.getShipsRequest()));
+		Assertions.assertThrows(SpaceException.class, () -> spaceService.searchTrains(MockedRequest.getTrainsRequest()));
 	}
 
 	@Test
@@ -211,7 +211,7 @@ class SpaceServiceTest {
 		Mockito.when(userDetailsRepo.findByUserEmail(Mockito.any())).thenReturn(RepoResponse.fetchUserDetailsSuccess());
 
 		String actualJson = MapToJson(spaceService.fetchProfileDetails(MockedRequest.getProfileRequest()));
-		String expectedJson = "{\"responseCode\":null,\"responseMessage\":null,\"userId\":null,\"userName\":\"Shankar\",\"userEmail\":\"email@gmail.com\",\"userPassword\":\"**3**6\",\"basePlanet\":\"Earth\",\"dob\":\"05/12/1998\"}";
+		String expectedJson = "{\"responseCode\":null,\"responseMessage\":null,\"userId\":null,\"userName\":\"Shankar\",\"userEmail\":\"email@gmail.com\",\"userPassword\":\"**3**6\",\"basePlanet\":null,\"dob\":\"05/12/1998\"}";
 		assertThat(actualJson).isEqualTo(expectedJson);
 	}
 
@@ -363,7 +363,7 @@ class SpaceServiceTest {
 	@Test
 	void generateEticketSuccessTest() throws SpaceException, JsonProcessingException, MessagingException {
 
-		Mockito.when(shipDetailsRepo.fetchShipDetail(Mockito.any())).thenReturn(RepoResponse.getShipDetail());
+		Mockito.when(trainDetailsRepo.fetchTrainDetail(Mockito.any())).thenReturn(RepoResponse.getTrainDetail());
 		Mockito.when(classDetailsRepo.fetchClassIdWithClassName(Mockito.any()))
 				.thenReturn(RepoResponse.getClassDetails());
 		Mockito.when(routeDetailsRepo.fetchRouteDetails(Mockito.any(), Mockito.any()))
@@ -383,7 +383,7 @@ class SpaceServiceTest {
 	@Test
 	void generateWaitListEticketSuccessTest() throws SpaceException, JsonProcessingException, MessagingException {
 
-		Mockito.when(shipDetailsRepo.fetchShipDetail(Mockito.any())).thenReturn(RepoResponse.getShipDetail());
+		Mockito.when(trainDetailsRepo.fetchTrainDetail(Mockito.any())).thenReturn(RepoResponse.getTrainDetail());
 		Mockito.when(classDetailsRepo.fetchClassIdWithClassName(Mockito.any()))
 				.thenReturn(RepoResponse.getClassDetails());
 		Mockito.when(routeDetailsRepo.fetchRouteDetails(Mockito.any(), Mockito.any()))
@@ -403,7 +403,7 @@ class SpaceServiceTest {
 	@Test
 	void generateEticketEmptyUser2Test() throws SpaceException, JsonProcessingException, MessagingException {
 
-		Mockito.when(shipDetailsRepo.fetchShipDetail(Mockito.any())).thenReturn(RepoResponse.getShipDetail());
+		Mockito.when(trainDetailsRepo.fetchTrainDetail(Mockito.any())).thenReturn(RepoResponse.getTrainDetail());
 		Mockito.when(classDetailsRepo.fetchClassIdWithClassName(Mockito.any()))
 				.thenReturn(RepoResponse.getClassDetails());
 		Mockito.when(routeDetailsRepo.fetchRouteDetails(Mockito.any(), Mockito.any()))
@@ -424,7 +424,7 @@ class SpaceServiceTest {
 	void generateEticketEmptyUser2AvailableTicketNullTest()
 			throws SpaceException, JsonProcessingException, MessagingException {
 
-		Mockito.when(shipDetailsRepo.fetchShipDetail(Mockito.any())).thenReturn(RepoResponse.getShipDetail());
+		Mockito.when(trainDetailsRepo.fetchTrainDetail(Mockito.any())).thenReturn(RepoResponse.getTrainDetail());
 		Mockito.when(classDetailsRepo.fetchClassIdWithClassName(Mockito.any()))
 				.thenReturn(RepoResponse.getClassDetails());
 		Mockito.when(routeDetailsRepo.fetchRouteDetails(Mockito.any(), Mockito.any()))
@@ -442,7 +442,7 @@ class SpaceServiceTest {
 	void generateEticketNegTest() throws SpaceException, JsonProcessingException, MessagingException {
 
 		Mockito.doThrow(new PersistenceException("FAILURE_CASE") {
-		}).when(shipDetailsRepo).fetchShipDetail(Mockito.any());
+		}).when(trainDetailsRepo).fetchTrainDetail(Mockito.any());
 
 		Assertions.assertThrows(SpaceException.class,
 				() -> spaceService.generateEticket(MockedRequest.getGenerateETicket()));
@@ -455,7 +455,7 @@ class SpaceServiceTest {
 				.thenReturn(RepoResponse.getBookingDetails());
 
 		String actualJson = MapToJson(spaceService.fetchBookingDetails(MockedRequest.getFetchRequest()));
-		String expectedJson = "[{\"bookingId\":1,\"shipName\":\"Europa\",\"boarding\":\"Earth\",\"arrival\":\"Mars\",\"journeyDate\":0,\"duration\":50,\"price\":5.0,\"bookingStatus\":null}]";
+		String expectedJson = "[{\"bookingId\":1,\"trainName\":\"Europa\",\"boarding\":\"Earth\",\"arrival\":\"Mars\",\"journeyDate\":0,\"duration\":50,\"price\":5.0,\"bookingStatus\":null}]";
 		assertThat(actualJson).isEqualTo(expectedJson);
 	}
 
@@ -582,7 +582,7 @@ class SpaceServiceTest {
 		Mockito.when(
 				availableTicketsRepo.findBySelectionDetails(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
 				.thenReturn(RepoResponse.getTicketStatus3());
-		Mockito.doNothing().when(availableTicketsRepo).deleteByJourneyDateAndShipIdAndClassId(Mockito.any(),
+		Mockito.doNothing().when(availableTicketsRepo).deleteByJourneyDateAndTrainIdAndClassId(Mockito.any(),
 				Mockito.any(), Mockito.any());
 		Mockito.doNothing().when(bookingDetailsRepo).deleteByBookingId(Mockito.any());
 		spaceService.cancelTicket(MockedRequest.getCancelTicketRequest());

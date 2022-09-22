@@ -38,14 +38,14 @@ public class BookingDetailsEntity {
 	@Column(name="traveller_age")
 	private Integer travellerAge;
 	
-	@Column(name="ship_id")
-	private Integer shipId;
+	@Column(name="train_id")
+	private Integer trainId;
 	
-	@Column(name="ship_name")
-	private String shipName;
+	@Column(name="train_name")
+	private String trainName;
 	
-	@Column(name="ship_class")
-	private String shipClass;
+	@Column(name="train_class")
+	private String trainClass;
 	
 	@Column(name="class_id")
 	private Integer classId;

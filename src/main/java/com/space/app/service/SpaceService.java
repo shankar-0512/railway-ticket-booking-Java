@@ -34,14 +34,15 @@ import com.space.app.dto.GenerateEticketRequestDTO;
 import com.space.app.dto.LoginDTO;
 import com.space.app.dto.ProfileRequestDTO;
 import com.space.app.dto.ProfileResponseDTO;
-import com.space.app.dto.ShipsRequest;
-import com.space.app.dto.ShipsResponse;
+import com.space.app.dto.TrainsRequest;
+import com.space.app.dto.TrainsResponse;
 import com.space.app.dto.VerifyUserRequestDTO;
 import com.space.app.entity.AvailableTicketsEntity;
 import com.space.app.entity.BookingDetailsEntity;
 import com.space.app.entity.ClassDetailsEntity;
 import com.space.app.entity.RouteDetailsEntity;
-import com.space.app.entity.ShipDetailsEntity;
+import com.space.app.entity.TrainDetailsEntity;
+import com.space.app.entity.TrainDetailsEntity;
 import com.space.app.entity.UserDetailsEntity;
 import com.space.app.entity.UserIdOtpMapEntity;
 import com.space.app.exception.SpaceException;
@@ -49,9 +50,9 @@ import com.space.app.repo.AvailableTicketsRepo;
 import com.space.app.repo.BookingDetailsRepo;
 import com.space.app.repo.ClassDetailsRepo;
 import com.space.app.repo.RouteDetailsRepo;
-import com.space.app.repo.ShipClassMapRepo;
-import com.space.app.repo.ShipDetailsRepo;
-import com.space.app.repo.ShipRoutesRepo;
+import com.space.app.repo.TrainClassMapRepo;
+import com.space.app.repo.TrainDetailsRepo;
+import com.space.app.repo.TrainRoutesRepo;
 import com.space.app.repo.UserDetailsRepo;
 import com.space.app.repo.UserIdOtpMapRepo;
 import com.space.app.util.SpaceUtil;
@@ -69,16 +70,16 @@ public class SpaceService {
 	ClassDetailsRepo classDetailsRepo;
 
 	@Autowired
-	ShipClassMapRepo shipClassMapRepo;
+	TrainClassMapRepo trainClassMapRepo;
 
 	@Autowired
-	ShipDetailsRepo shipDetailsRepo;
+	TrainDetailsRepo trainDetailsRepo;
 
 	@Autowired
 	RouteDetailsRepo routeDetailsRepo;
 
 	@Autowired
-	ShipRoutesRepo shipRoutesRepo;
+	TrainRoutesRepo trainRoutesRepo;
 
 	@Autowired
 	UserIdOtpMapRepo userIdOtpMapRepo;
@@ -145,7 +146,6 @@ public class SpaceService {
 			userEntity.setUserName(signUpRequest.getName());
 			userEntity.setUserEmail(signUpRequest.getEmail().toLowerCase());
 			userEntity.setPassword(signUpRequest.getPassword());
-			userEntity.setBasePlanet(signUpRequest.getBasePlanet());
 			userEntity.setDob(signUpRequest.getDob());
 
 			userDetailsRepo.save(userEntity);
@@ -159,67 +159,67 @@ public class SpaceService {
 		return signUpResponse;
 	}
 
-	public List<ShipsResponse> searchShips(ShipsRequest shipsRequest) throws SpaceException {
-		List<ShipsResponse> shipsResponseList = new ArrayList<>();
+	public List<TrainsResponse> searchTrains(TrainsRequest trainsRequest) throws SpaceException {
+		List<TrainsResponse> trainsResponseList = new ArrayList<>();
 
 		Integer classId = null;
-		List<Integer> shipIds = null;
-		List<Integer> filteredShipIds = null;
+		List<Integer> trainIds = null;
+		List<Integer> filteredTrainIds = null;
 		RouteDetailsEntity routeDetails = new RouteDetailsEntity();
 		ClassDetailsEntity classEntity = new ClassDetailsEntity();
-		List<ShipDetailsEntity> shipEntity = new ArrayList<>();
+		List<TrainDetailsEntity> trainEntity = new ArrayList<>();
 		List<AvailableTicketsEntity> availableTicketsFetch = new ArrayList<>();
-		Map<Integer, AvailableTicketsEntity> shipIdTicketMap = new HashMap<>();
+		Map<Integer, AvailableTicketsEntity> trainIdTicketMap = new HashMap<>();
 
 		try {
 
 			// fetching class_id with class_name
-			classEntity = classDetailsRepo.fetchClassIdWithClassName(shipsRequest.getShipClass());
+			classEntity = classDetailsRepo.fetchClassIdWithClassName(trainsRequest.getTrainClass());
 			classId = classEntity.getClassId();
 
-			// fetching ship-class map with classId
-			shipIds = shipClassMapRepo.fetchShipIdsWithClassId(classId);
+			// fetching train-class map with classId
+			trainIds = trainClassMapRepo.fetchTrainIdsWithClassId(classId);
 
-			routeDetails = routeDetailsRepo.fetchRouteDetails(shipsRequest.getFrom(), shipsRequest.getTo());
+			routeDetails = routeDetailsRepo.fetchRouteDetails(trainsRequest.getFrom(), trainsRequest.getTo());
 
 			if (routeDetails == null) {
-				return shipsResponseList;
+				return trainsResponseList;
 			}
 
-			filteredShipIds = shipRoutesRepo.fetchShipIdsWithRouteId(routeDetails.getRouteId(), shipIds);
+			filteredTrainIds = trainRoutesRepo.fetchTrainIdsWithRouteId(routeDetails.getRouteId(), trainIds);
 
-			// fetching ship details.
-			shipEntity = shipDetailsRepo.fetchShipDetails(filteredShipIds);
+			// fetching train details.
+			trainEntity = trainDetailsRepo.fetchTrainDetails(filteredTrainIds);
 
-			availableTicketsFetch = availableTicketsRepo.findAllBySelectionDetails(shipsRequest.getJourneyDate(),
-					classEntity.getClassId(), shipsRequest.getFrom(), shipsRequest.getTo());
+			availableTicketsFetch = availableTicketsRepo.findAllBySelectionDetails(trainsRequest.getJourneyDate(),
+					classEntity.getClassId(), trainsRequest.getFrom(), trainsRequest.getTo());
 			
 			for(AvailableTicketsEntity list : availableTicketsFetch) {
-				shipIdTicketMap.put(list.getShipId(), list);
+				trainIdTicketMap.put(list.getTrainId(), list);
 			}
 
-			for (ShipDetailsEntity ship : shipEntity) {
+			for (TrainDetailsEntity train : trainEntity) {
 				
 				Integer ticketsBooked = 0;
-				if(shipIdTicketMap.get(ship.getShipId()) != null) {
-					ticketsBooked = shipIdTicketMap.get(ship.getShipId()).getTicketsBooked();
+				if(trainIdTicketMap.get(train.getTrainId()) != null) {
+					ticketsBooked = trainIdTicketMap.get(train.getTrainId()).getTicketsBooked();
 				}
 				
-				ShipsResponse response = new ShipsResponse();
-				response.setShipId(ship.getShipId());
-				response.setShipName(ship.getShipName());
-				response.setDuration(routeDetails.getDistance() / ship.getSpeed());
-				response.setPrice(ship.getBasePrice() * classEntity.getPriceMultiply());
+				TrainsResponse response = new TrainsResponse();
+				response.setTrainId(train.getTrainId());
+				response.setTrainName(train.getTrainName());
+				response.setDuration(routeDetails.getDistance() / train.getSpeed());
+				response.setPrice(train.getBasePrice() * classEntity.getPriceMultiply());
 				response.setTicketsAvailable(AppConstants.TOTAL_TICKET_COUNT - ticketsBooked);
-				shipsResponseList.add(response);
+				trainsResponseList.add(response);
 			}
 
 		} catch (DataAccessException | PersistenceException ex) {
-			logger.error(ErrorConstants.SEARCH_SHIPS_ERROR);
-			throw new SpaceException(ErrorConstants.SEARCH_SHIPS_ERROR);
+			logger.error(ErrorConstants.SEARCH_TRAINS_ERROR);
+			throw new SpaceException(ErrorConstants.SEARCH_TRAINS_ERROR);
 		}
 
-		return shipsResponseList;
+		return trainsResponseList;
 	}
 
 	public ProfileResponseDTO fetchProfileDetails(ProfileRequestDTO profileRequest) throws SpaceException {
@@ -256,7 +256,6 @@ public class SpaceService {
 			profileResponse.setUserEmail(userDetails.getUserEmail());
 			profileResponse.setUserName(userDetails.getUserName());
 			profileResponse.setUserPassword(hiddenPassword.toString());
-			profileResponse.setBasePlanet(userDetails.getBasePlanet());
 			profileResponse.setDob(userDetails.getDob());
 
 		} catch (DataAccessException | PersistenceException ex) {
@@ -289,7 +288,6 @@ public class SpaceService {
 
 			// Validations
 			if (userEntityFetch.getUserName().equals(saveRequest.getName())
-					&& userEntityFetch.getBasePlanet().equals(saveRequest.getBasePlanet())
 					&& userEntityFetch.getDob().equals(saveRequest.getDob())) {
 				saveResponse.setResponseCode(AppConstants.FAILURE_CODE_3);
 				saveResponse.setResponseMessage(ErrorConstants.NO_UPDATES);
@@ -299,7 +297,6 @@ public class SpaceService {
 
 			userEntitySave.setUserEmail(userEntityFetch.getUserEmail());
 			userEntitySave.setUserName(saveRequest.getName());
-			userEntitySave.setBasePlanet(saveRequest.getBasePlanet());
 			userEntitySave.setDob(saveRequest.getDob());
 			userEntitySave.setPassword(userEntityFetch.getPassword());
 			userEntitySave.setUserId(userEntityFetch.getUserId());
@@ -425,7 +422,7 @@ public class SpaceService {
 	public CommonResponseDTO generateEticket(GenerateEticketRequestDTO generateRequest) throws SpaceException {
 
 		CommonResponseDTO verifyResponse = new CommonResponseDTO();
-		ShipDetailsEntity shipDetails = new ShipDetailsEntity();
+		TrainDetailsEntity trainDetails = new TrainDetailsEntity();
 		ClassDetailsEntity classEntity = new ClassDetailsEntity();
 		RouteDetailsEntity routeDetails = new RouteDetailsEntity();
 		BookingDetailsEntity bookingDetails = new BookingDetailsEntity();
@@ -437,30 +434,30 @@ public class SpaceService {
 		try {
 
 			// ###### FETCHING AND CALCULATING REQUIRED VALUES FOR TICKET ######
-			shipDetails = shipDetailsRepo.fetchShipDetail(generateRequest.getShipId());
+			trainDetails = trainDetailsRepo.fetchTrainDetail(generateRequest.getTrainId());
 
-			classEntity = classDetailsRepo.fetchClassIdWithClassName(generateRequest.getShipClass());
+			classEntity = classDetailsRepo.fetchClassIdWithClassName(generateRequest.getTrainClass());
 
 			routeDetails = routeDetailsRepo.fetchRouteDetails(generateRequest.getBoardingStation(),
 					generateRequest.getArrivalStation());
 
-			Integer duration = routeDetails.getDistance() / shipDetails.getSpeed();
+			Integer duration = routeDetails.getDistance() / trainDetails.getSpeed();
 
-			Double price = shipDetails.getBasePrice() * classEntity.getPriceMultiply();
+			Double price = trainDetails.getBasePrice() * classEntity.getPriceMultiply();
 			Double serviceCharge = 10.5;
 			Double total = price + serviceCharge;
 
 			// ###### ADDING TICKET COUNT ######
 
 			availableTicketsFetch = availableTicketsRepo.findBySelectionDetails(generateRequest.getJourneyDate(),
-					generateRequest.getShipId(), classEntity.getClassId(), generateRequest.getBoardingStation(),
+					generateRequest.getTrainId(), classEntity.getClassId(), generateRequest.getBoardingStation(),
 					generateRequest.getArrivalStation());
 
 			// NO BOOKING HAS BEEN MADE ON THIS DATE
 			if (availableTicketsFetch == null) {
 				availableTickets.setJourneyDate(generateRequest.getJourneyDate());
 				availableTickets.setTicketsBooked(AppConstants.ONE);
-				availableTickets.setShipId(generateRequest.getShipId());
+				availableTickets.setTrainId(generateRequest.getTrainId());
 				availableTickets.setClassId(classEntity.getClassId());
 				availableTickets.setBoarding(generateRequest.getBoardingStation());
 				availableTickets.setDestination(generateRequest.getArrivalStation());
@@ -483,10 +480,10 @@ public class SpaceService {
 			// ###### SAVING BOOKING DETAILS ######
 			bookingDetails.setJourneyDate(generateRequest.getJourneyDate());
 			bookingDetails.setPrice(total);
-			bookingDetails.setShipClass(generateRequest.getShipClass());
+			bookingDetails.setTrainClass(generateRequest.getTrainClass());
 			bookingDetails.setClassId(classEntity.getClassId());
-			bookingDetails.setShipId(generateRequest.getShipId());
-			bookingDetails.setShipName(shipDetails.getShipName());
+			bookingDetails.setTrainId(generateRequest.getTrainId());
+			bookingDetails.setTrainName(trainDetails.getTrainName());
 			bookingDetails.setBoarding(generateRequest.getBoardingStation());
 			bookingDetails.setArrival(generateRequest.getArrivalStation());
 			bookingDetails.setDuration(duration);
@@ -519,7 +516,7 @@ public class SpaceService {
 			});
 
 			emailSubject = "Your E-Ticket";
-			emailContent = SpaceUtil.generateTicketEmailContent(generateRequest, shipDetails, bookingDetails, duration,
+			emailContent = SpaceUtil.generateTicketEmailContent(generateRequest, trainDetails, bookingDetails, duration,
 					price, serviceCharge, total, status);
 
 			Message message = prepareMessage(session, myAccountEmail, recipient, emailContent, emailSubject);
@@ -548,7 +545,7 @@ public class SpaceService {
 				BookingDetailsDTO booking = new BookingDetailsDTO();
 
 				booking.setBookingId(entity.getBookingId());
-				booking.setShipName(entity.getShipName());
+				booking.setTrainName(entity.getTrainName());
 				booking.setBoarding(entity.getBoarding());
 				booking.setArrival(entity.getArrival());
 				booking.setDuration(entity.getDuration());
@@ -627,18 +624,18 @@ public class SpaceService {
 			bookingDetails = bookingDetailsRepo.findByBookingId(cancelRequest.getBookingId());
 
 			availableTicketsFetch = availableTicketsRepo.findBySelectionDetails(bookingDetails.getJourneyDate(),
-					bookingDetails.getShipId(), bookingDetails.getClassId(), bookingDetails.getBoarding(),
+					bookingDetails.getTrainId(), bookingDetails.getClassId(), bookingDetails.getBoarding(),
 					bookingDetails.getArrival());
 
 			Integer tickets = availableTicketsFetch.getTicketsBooked();
 			tickets = tickets - 1;
 			if (tickets <= 0) {
-				availableTicketsRepo.deleteByJourneyDateAndShipIdAndClassId(bookingDetails.getJourneyDate(),
-						bookingDetails.getShipId(), bookingDetails.getClassId());
+				availableTicketsRepo.deleteByJourneyDateAndTrainIdAndClassId(bookingDetails.getJourneyDate(),
+						bookingDetails.getTrainId(), bookingDetails.getClassId());
 			} else {
 				availableTicketsFetch.setTicketsBooked(tickets);
 				availableTicketsRepo.save(availableTicketsFetch);
-				updateTicketStatusOnCancellation(bookingDetails.getShipId(), bookingDetails.getClassId());
+				updateTicketStatusOnCancellation(bookingDetails.getTrainId(), bookingDetails.getClassId());
 			}
 
 			bookingDetailsRepo.deleteByBookingId(cancelRequest.getBookingId());
@@ -649,13 +646,13 @@ public class SpaceService {
 		}
 	}
 
-	public void updateTicketStatusOnCancellation(Integer shipId, Integer classId) throws SpaceException {
+	public void updateTicketStatusOnCancellation(Integer trainId, Integer classId) throws SpaceException {
 
 		BookingDetailsEntity oldestWaitListedTicket = new BookingDetailsEntity();
 		String status = AppConstants.WAITLISTED_TICKET;
 		try {
 
-			oldestWaitListedTicket = bookingDetailsRepo.fetchOldestWaitListedTicket(status, shipId, classId);
+			oldestWaitListedTicket = bookingDetailsRepo.fetchOldestWaitListedTicket(status, trainId, classId);
 
 			if (oldestWaitListedTicket == null) {
 				return;

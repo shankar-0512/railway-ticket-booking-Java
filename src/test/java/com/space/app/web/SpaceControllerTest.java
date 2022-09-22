@@ -17,7 +17,7 @@ import com.space.app.controller.SpaceController;
 import com.space.app.dto.BookingDetailsDTO;
 import com.space.app.dto.CommonResponseDTO;
 import com.space.app.dto.ProfileResponseDTO;
-import com.space.app.dto.ShipsResponse;
+import com.space.app.dto.TrainsResponse;
 import com.space.app.exception.SpaceException;
 import com.space.app.service.SpaceService;
 import com.space.app.mockedRequest.MockedRequest;
@@ -60,23 +60,23 @@ class SpaceControllerTest {
 	}
 
 	@Test
-	void searchShipsTest() throws SpaceException, JsonProcessingException {
+	void searchTrainsTest() throws SpaceException, JsonProcessingException {
 
-		List<ShipsResponse> shipResponse = new ArrayList<>();
-		Mockito.when(spaceService.searchShips(Mockito.any())).thenReturn(shipResponse);
-		shipResponse = spaceController.searchShips(MockedRequest.getShipsRequest());
+		List<TrainsResponse> trainResponse = new ArrayList<>();
+		Mockito.when(spaceService.searchTrains(Mockito.any())).thenReturn(trainResponse);
+		trainResponse = spaceController.searchTrains(MockedRequest.getTrainsRequest());
 
-		assertThat(shipResponse).isEmpty();
+		assertThat(trainResponse).isEmpty();
 	}
 
 	@Test
-	void searchShipsNegTest() throws SpaceException, JsonProcessingException {
+	void searchTrainsNegTest() throws SpaceException, JsonProcessingException {
 
-		List<ShipsResponse> shipResponse = new ArrayList<>();
-		Mockito.doThrow(new SpaceException("FAILURE_CASE")).when(spaceService).searchShips(Mockito.any());
-		shipResponse = spaceController.searchShips(MockedRequest.getShipsRequest());
+		List<TrainsResponse> trainResponse = new ArrayList<>();
+		Mockito.doThrow(new SpaceException("FAILURE_CASE")).when(spaceService).searchTrains(Mockito.any());
+		trainResponse = spaceController.searchTrains(MockedRequest.getTrainsRequest());
 
-		assertThat(shipResponse).isEmpty();
+		assertThat(trainResponse).isEmpty();
 	}
 
 	@Test

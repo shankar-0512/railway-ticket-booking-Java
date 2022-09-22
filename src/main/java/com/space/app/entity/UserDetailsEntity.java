@@ -34,9 +34,6 @@ private static final long serialVersionUID = 1L;
 	@Column(name="password")
 	private String password ;
 	
-	@Column(name="base_planet")
-	private String basePlanet;
-	
 	@Column(name="dob")
 	private String dob;
 

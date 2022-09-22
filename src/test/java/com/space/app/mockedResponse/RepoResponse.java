@@ -8,7 +8,7 @@ import com.space.app.entity.AvailableTicketsEntity;
 import com.space.app.entity.BookingDetailsEntity;
 import com.space.app.entity.ClassDetailsEntity;
 import com.space.app.entity.RouteDetailsEntity;
-import com.space.app.entity.ShipDetailsEntity;
+import com.space.app.entity.TrainDetailsEntity;
 import com.space.app.entity.UserDetailsEntity;
 import com.space.app.entity.UserIdOtpMapEntity;
 import com.space.app.util.SpaceUtil;
@@ -22,7 +22,6 @@ public class RepoResponse {
 		entity.setUserId(1);
 		entity.setUserName("Shankar");
 		entity.setDob("05/12/1998");
-		entity.setBasePlanet("Earth");
 
 		return entity;
 	}
@@ -34,7 +33,6 @@ public class RepoResponse {
 		entity.setUserId(1);
 		entity.setUserName("Shankar");
 		entity.setDob("05/12/1998");
-		entity.setBasePlanet("Earth");
 
 		return entity;
 	}
@@ -48,11 +46,11 @@ public class RepoResponse {
 		return entity;
 	}
 
-	public static List<Integer> getShipIdsWithClassId() {
-		List<Integer> shipIds = new ArrayList<>();
-		shipIds.add(1);
+	public static List<Integer> getTrainIdsWithClassId() {
+		List<Integer> trainIds = new ArrayList<>();
+		trainIds.add(1);
 
-		return shipIds;
+		return trainIds;
 	}
 
 	public static RouteDetailsEntity getRouteDetails() {
@@ -65,18 +63,18 @@ public class RepoResponse {
 		return entity;
 	}
 
-	public static List<Integer> getShipIdsWithRouteId() {
-		List<Integer> shipIds = new ArrayList<>();
-		shipIds.add(1);
+	public static List<Integer> getTrainIdsWithRouteId() {
+		List<Integer> trainIds = new ArrayList<>();
+		trainIds.add(1);
 
-		return shipIds;
+		return trainIds;
 	}
 
-	public static List<ShipDetailsEntity> getShipDetails() {
-		List<ShipDetailsEntity> entityList = new ArrayList<>();
-		ShipDetailsEntity entity = new ShipDetailsEntity();
-		entity.setShipId(1);
-		entity.setShipName("Europa");
+	public static List<TrainDetailsEntity> getTrainDetails() {
+		List<TrainDetailsEntity> entityList = new ArrayList<>();
+		TrainDetailsEntity entity = new TrainDetailsEntity();
+		entity.setTrainId(1);
+		entity.setTrainName("Europa");
 		entity.setSpeed(50);
 		entity.setBasePrice(50.0);
 		entityList.add(entity);
@@ -94,10 +92,10 @@ public class RepoResponse {
 		return entity;
 	}
 
-	public static ShipDetailsEntity getShipDetail() {
-		ShipDetailsEntity entity = new ShipDetailsEntity();
-		entity.setShipId(1);
-		entity.setShipName("Europa");
+	public static TrainDetailsEntity getTrainDetail() {
+		TrainDetailsEntity entity = new TrainDetailsEntity();
+		entity.setTrainId(1);
+		entity.setTrainName("Europa");
 		entity.setSpeed(50);
 		entity.setBasePrice(50.0);
 
@@ -114,9 +112,9 @@ public class RepoResponse {
 		entity.setDuration(50);
 		entity.setJourneyDate(date);
 		entity.setPrice(5.0);
-		entity.setShipClass("Economy");
-		entity.setShipId(1);
-		entity.setShipName("Europa");
+		entity.setTrainClass("Economy");
+		entity.setTrainId(1);
+		entity.setTrainName("Europa");
 		entity.setTravellerEmail("email@gmail.com");
 		entity.setUserId("email@gmail.com");
 		entityList.add(entity);
@@ -133,9 +131,9 @@ public class RepoResponse {
 		entity.setDuration(50);
 		entity.setJourneyDate(date);
 		entity.setPrice(5.0);
-		entity.setShipClass("Economy");
-		entity.setShipId(1);
-		entity.setShipName("Europa");
+		entity.setTrainClass("Economy");
+		entity.setTrainId(1);
+		entity.setTrainName("Europa");
 		entity.setTravellerEmail("email@gmail.com");
 		entity.setUserId("email@gmail.com");
 
@@ -145,21 +143,21 @@ public class RepoResponse {
 	public static AvailableTicketsEntity getTicketStatus() {
 		AvailableTicketsEntity entity = new AvailableTicketsEntity();
 		entity.setTicketsBooked(5);
-		entity.setShipId(1);
+		entity.setTrainId(1);
 		return entity;
 	}
 	
 	public static AvailableTicketsEntity getTicketStatus2() {
 		AvailableTicketsEntity entity = new AvailableTicketsEntity();
 		entity.setTicketsBooked(150);
-		entity.setShipId(1);
+		entity.setTrainId(1);
 		return entity;
 	}
 	
 	public static AvailableTicketsEntity getTicketStatus3() {
 		AvailableTicketsEntity entity = new AvailableTicketsEntity();
 		entity.setTicketsBooked(0);
-		entity.setShipId(1);
+		entity.setTrainId(1);
 		return entity;
 	}
 	
@@ -167,7 +165,7 @@ public class RepoResponse {
 		List<AvailableTicketsEntity> entityList = new ArrayList<>();
 		AvailableTicketsEntity entity = new AvailableTicketsEntity();
 		entity.setTicketsBooked(5);
-		entity.setShipId(1);
+		entity.setTrainId(1);
 		entityList.add(entity);
 		
 		return entityList;

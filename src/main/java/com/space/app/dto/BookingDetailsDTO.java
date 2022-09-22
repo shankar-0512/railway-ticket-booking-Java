@@ -10,7 +10,7 @@ import lombok.Setter;
 public class BookingDetailsDTO {
 
 	Integer bookingId;
-	String shipName;
+	String trainName;
 	String boarding;
 	String arrival;
 	Date journeyDate;

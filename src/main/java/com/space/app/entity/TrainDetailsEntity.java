@@ -13,18 +13,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="ship_routes", schema="public")
-public class ShipRoutesEntity {
+@Table(name="train_details", schema="public")
+public class TrainDetailsEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="map_id")
-	private Integer mapId;
+	@Column(name="train_id")
+	private Integer trainId;
 	
-	@Column(name="ship_id")
-	private Integer shipId;
+	@Column(name="train_name")
+	private String trainName;
 	
-	@Column(name="route_id")
-	private Integer routeId;
+	@Column(name="base_price")
+	private Double basePrice;
+	
+	@Column(name="speed_per_hour")
+	private Integer speed;
 
 }

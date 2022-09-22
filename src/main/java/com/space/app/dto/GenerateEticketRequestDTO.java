@@ -12,8 +12,8 @@ public class GenerateEticketRequestDTO {
 	String userName;
 	String userEmail;
 	Integer userAge;
-	Integer shipId;
-	String shipClass;
+	Integer trainId;
+	String trainClass;
 	String boardingStation;
 	String arrivalStation;
 	Date journeyDate;
