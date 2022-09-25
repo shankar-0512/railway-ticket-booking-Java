@@ -329,8 +329,8 @@ public class SpaceService {
 			properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
 			properties.put("mail.smtp.port", "587");
 
-			String myAccountEmail = "alien.propulsion2022@gmail.com";
-			String password = "kmcyhprwwmhuctwa";
+			String myAccountEmail = "noreply.continentalline@gmail.com";
+			String password = "linhttwxkxcgnaek";
 			String recipient = verifyRequest.getUserEmail();
 
 			Session session = Session.getInstance(properties, new Authenticator() {
