@@ -278,12 +278,6 @@ public class SpaceService {
 				return saveResponse;
 			}
 
-			if (saveRequest.getBasePlanet().equals(AppConstants.EMPTY_STR)) {
-				saveResponse.setResponseCode(AppConstants.FAILURE_CODE_2);
-				saveResponse.setResponseMessage(ErrorConstants.INVALID_PLANET);
-				return saveResponse;
-			}
-
 			userEntityFetch = userDetailsRepo.findByUserEmail(saveRequest.getEmail().toLowerCase());
 
 			// Validations
